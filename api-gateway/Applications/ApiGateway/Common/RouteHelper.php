@@ -39,7 +39,7 @@ class RouteHelper
     const TIME_OUT = 30;
     const REQUEST_TYPE_HTTP = 'http';
     const REQUEST_TYPE_SOCKET = 'tcp';
-    public static $requestType = 'http';
+    public static $requestType = 'tcp';
     private $debugTrace = array();
 
     /**
@@ -47,12 +47,6 @@ class RouteHelper
      */
     private function __construct($host, $port)
     {
-       /* $this->debugTrace = [];
-        if (!isset(self::$connectCache [self::$connectIdentify]) || 
-            $this->isConnect(self::$connectCache [self::$connectIdentify]) == false)
-        {
-           // $this->openConnection($host, $port);
-        } */
     }
 
     /**
@@ -90,7 +84,8 @@ class RouteHelper
                 $response = $this->HttpRequest(self::$host,self::$port,$service,$action,$params);
                 break;
             case self::REQUEST_TYPE_SOCKET:
-                $response = $this->SocketClient(self::$host,self::$port,$service,$action,$params);
+                //$response = $this->SocketClient(self::$host,self::$port,$service,$action,$params);
+                $response = $this->CallService($service, $action, $params);
                 break;
             default:
                 # code...
@@ -332,7 +327,8 @@ class RouteHelper
      */
     public function SocketClient($host,$port,$service,$action,$params){
         try {
-            $client = stream_socket_client(sprintf('tcp://%s:%s',$host,$port),$err_no,$err_msg,self::TIME_OUT);
+	          $addr = sprintf('tcp://%s:%s',$host,$port);
+            $client = stream_socket_client($addr,$err_no,$err_msg,self::TIME_OUT);
             $response = array();
             if (!$client) {
                 $logData = array(
@@ -347,15 +343,12 @@ class RouteHelper
                     'param_array' => empty($params) ? array() : $params
                 ));
                 $result = fwrite($client,$sendData);
+		            echo print_r($sendData),PHP_EOL;
                 if ($result) {
-                    while (!feof($client)) {
-                        $data = fgets($client,1024);
-                        $response[] = $data;
-                    }
+                    $response = fgets($client);
                     fclose($client);
                 }
             }
-            $response = implode ($response);
             return JsonProtocol::decode($response);
         } catch (Exception $e) {
             //记录代码异常日志
