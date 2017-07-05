@@ -86,8 +86,8 @@ class File implements LogStorage
             $log_array['type'] = isset($message['type']) ? $message['type'] : "defalut";
             $log_array['reqdata'] = isset($message['request']) ? $message['request'] : "";
             $log_array['repdata'] = isset($message['response']) ? $message['response'] : "";
-            $chars = array(':' => '=', '{' => '<', '}' => '>', '[' => '(', ']' => ')', "'" => ' ', '"' => ' ');
-            $log_array = $this->recursiveReplace($log_array, $chars);
+            //$chars = array(':' => '=', '{' => '<', '}' => '>', '[' => '(', ']' => ')', "'" => ' ', '"' => ' ');
+            //$log_array = $this->recursiveReplace($log_array, $chars);
             $log_json = json_encode($log_array) . PHP_EOL;
             return error_log($log_json, 3, $destination);
         }

@@ -18,7 +18,7 @@ use \GatewayWorker\BusinessWorker;
 use \Workerman\Autoloader;
 
 // gateway 进程，这里使用Text协议，可以用telnet测试
-$gateway = new Gateway("http://0.0.0.0:8091");
+$gateway = new Gateway("http://0.0.0.0:8899");
 // gateway名称，status方便查看
 $gateway->name = 'DkhServiceGateway';
 // gateway进程数
@@ -29,7 +29,7 @@ $gateway->lanIp = '0.0.0.0';
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口 
 $gateway->startPort = 5100;
 // 服务注册地址
-$gateway->registerAddress = '0.0.0.0:9099';
+$gateway->registerAddress = '0.0.0.0:8888';
 
 // 心跳间隔
 //$gateway->pingInterval = 10;

@@ -81,10 +81,11 @@ class ConsulHelper
         {
             $serviceInfo['Check'] = [
             "DeregisterCriticalServiceAfter" => "90m",
-            "Script" => $checkScript,
-            "HTTP" => "",
-            "Interval" => "10s",
-            "TTL" => "15s"
+            "Script"    => $checkScript,
+            "HTTP"      => "",
+            "Interval"  => "10s",
+            "status"    => "passing"
+            //"TTL"       => "15s"
         ];
         }
         $response = $this->request('POST', $serverUrl, $serviceInfo);
@@ -165,7 +166,7 @@ class ConsulHelper
         curl_setopt($ch, CURLOPT_AUTOREFERER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 20000);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+        $postData = array();
         if (strtolower($method) == 'post' && !empty($options))
         {
             $postData = json_encode($options);

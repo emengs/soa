@@ -16,8 +16,8 @@ class AppSetting
      * @var array
      */
     static $Consul = array(
-      'host' => '127.0.0.1',
-      'port' => '8301'
+      'host' => '10.100.100.72',
+      'port' => '8500'
     );
 
 }
