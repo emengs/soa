@@ -51,8 +51,6 @@ class ConsulHelper
         {
             foreach ($services as $items)
             {
-
-
                 $service_host = isset($items['service_host']) ? $items['service_host'] : $this->getServerIp();
                 $service_port = isset($items['service_port']) ? $items['service_port'] : $this->consul_port;
 
